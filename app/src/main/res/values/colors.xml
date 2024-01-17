@@ -9,7 +9,6 @@
     <color name="primary_dark_color">#FF6733</color>
     <color name="tan_background">#FFF7DA</color>
     <color name="border_shade">#39794902</color>
-    <!--
     <color name="accent">#7A1EA1</color>
     <color name="bg_remind">#FF5722</color>
 
@@ -17,6 +16,6 @@
     <color name="category_family">#379237</color>
     <color name="category_colors">#FFFFFF</color>
     <color name="category_phrases">#16AFCA</color>
-    <color name="category_white">#FFF</color>-->
+    <color name="category_white">#FFF</color>
 
 </resources>

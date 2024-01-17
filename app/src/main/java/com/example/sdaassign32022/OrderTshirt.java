@@ -24,13 +24,7 @@ import androidx.fragment.app.Fragment;
  * A simple {@link Fragment} subclass.
  * @author Chris Coughlan 2019
  */
-public class OrderTshirt extends Fragment {
-
-
-    public OrderTshirt() {
-        // Required empty public constructor
-    }
-
+public class OrderTshirt extends Fragment implements Tab {
     //class wide variables
     private String mPhotoPath;
     private Spinner mSpinner;
@@ -41,6 +35,16 @@ public class OrderTshirt extends Fragment {
     //static keys
     private static final int REQUEST_TAKE_PHOTO = 2;
     private static final String TAG = "OrderTshirt";
+    private static final String title = "Order T-Shirt";
+    public OrderTshirt() {
+        // Required empty public constructor
+        super();
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

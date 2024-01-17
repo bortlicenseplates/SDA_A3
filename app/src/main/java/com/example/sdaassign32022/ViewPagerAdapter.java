@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import java.lang.reflect.Array;
+
 /*
  * viewPager adapter.
  * @author Chris Coughlan 2019
@@ -14,62 +16,21 @@ import androidx.fragment.app.FragmentPagerAdapter;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
+    private Tab[] fragments;
 
     ViewPagerAdapter(@NonNull FragmentManager fm, int behavior, Context nContext) {
         super(fm, behavior);
         context = nContext;
+        fragments = new Tab[]{new Welcome(), new ProductList(), new OrderTshirt()};
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
-
-        Fragment fragment = new Fragment();
-
-        //finds the tab position (note array starts at 0)
-        position = position+1;
-
-        //finds the fragment
-        switch (position)
-        {
-            case 1:
-                //code
-                fragment = new ProductList();
-                break;
-            case 2:
-                //code
-                fragment = new OrderTshirt();
-                break;
-        }
-
-        return fragment;
-    }
+    public Fragment getItem(int position) { return (Fragment) fragments[position]; }
 
     @Override
-    public int getCount() {
-        return 2;
-    }
+    public int getCount() { return fragments.length; }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        position = position+1;
-
-        CharSequence tabTitle = "";
-
-        //finds the fragment
-        switch (position)
-        {
-            case 1:
-                //code
-                tabTitle = "Product List";
-                break;
-            case 2:
-                //code
-                tabTitle = "Order T Shirt";
-                break;
-
-        }
-
-        return tabTitle;
-    }
+    public CharSequence getPageTitle(int position) { return fragments[position].getTitle(); }
 }

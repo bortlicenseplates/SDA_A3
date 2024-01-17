@@ -18,15 +18,17 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  * @author Chris Coughlan 2019
  */
-public class ProductList extends Fragment {
+public class ProductList extends Fragment implements Tab {
 
     private static final String TAG = "RecyclerViewActivity";
+    private static final String title = "Product List";
     private ArrayList<FlavorAdapter> mFlavor = new ArrayList<>();
 
     public ProductList() {
         // Required empty public constructor
+        super();
     }
-
+    public String getTitle() { return title; }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
