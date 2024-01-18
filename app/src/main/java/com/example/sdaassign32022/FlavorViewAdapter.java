@@ -20,9 +20,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,13 +37,14 @@ import java.util.ArrayList;
 public class FlavorViewAdapter extends RecyclerView.Adapter<FlavorViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
     private Context mNewContext;
+    private ItemClickListener mClickListener;
 
     //add array for each item\
     private ArrayList<FlavorAdapter> mFlavors;
 
-    FlavorViewAdapter(Context mNewContext, ArrayList<FlavorAdapter> mflavor) {
+    FlavorViewAdapter(Context mNewContext, ArrayList<FlavorAdapter> mflavors) {
         this.mNewContext = mNewContext;
-        this.mFlavors = mflavor;
+        this.mFlavors = mflavors;
     }
 
     //declare methods
@@ -58,7 +62,6 @@ public class FlavorViewAdapter extends RecyclerView.Adapter<FlavorViewAdapter.Vi
         viewHolder.imageText.setText(mFlavors.get(position).getVersionNumber());
         viewHolder.versionText.setText(mFlavors.get(position).getVersionName());
         viewHolder.imageItem.setImageResource(mFlavors.get(position).getImageResourceId());
-
     }
 
     @Override
@@ -66,8 +69,11 @@ public class FlavorViewAdapter extends RecyclerView.Adapter<FlavorViewAdapter.Vi
         return mFlavors.size();
     }
 
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
     //viewholder class
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView imageItem;
         TextView imageText;
@@ -82,7 +88,18 @@ public class FlavorViewAdapter extends RecyclerView.Adapter<FlavorViewAdapter.Vi
             imageText = itemView.findViewById(R.id.flavorText);
             versionText = itemView.findViewById(R.id.flavorVers);
             itemParentLayout = itemView.findViewById(R.id.listItemLayout);
-
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            if(mClickListener != null) {
+                Log.d(TAG, "onClick: " + versionText.getText());
+                mClickListener.onItemClick(view, getAdapterPosition());
+            }
+        }
+    }
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
     }
 }

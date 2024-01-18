@@ -16,6 +16,9 @@ package com.example.sdaassign32022;
 */
 
 
+import android.content.Context;
+import android.widget.Toast;
+
 /**
  * {@link FlavorAdapter} represents a single Android platform release.
  * Each object has 3 properties: name, version number, and image resource ID.
@@ -39,8 +42,7 @@ public class FlavorAdapter {
      * @param image is drawable reference ID that corresponds to the Android version
      *
      * */
-    public FlavorAdapter(String vName, String vNumber, int imageResourceId)
-    {
+    public FlavorAdapter(String vName, String vNumber, int imageResourceId) {
         mVersionName = vName;
         mVersionNumber = vNumber;
         mImageResourceId = imageResourceId;
@@ -66,6 +68,5 @@ public class FlavorAdapter {
     public int getImageResourceId() {
         return mImageResourceId;
     }
-
 }
 
