@@ -2,6 +2,7 @@ package com.example.sdaassign32022;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
@@ -18,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import java.lang.reflect.Array;
 
 
 /*
@@ -65,6 +68,7 @@ public class OrderTshirt extends Fragment implements Tab {
         mCameraImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: camera image clicked");
                 dispatchTakePictureIntent(v);
             }
         });
@@ -99,6 +103,7 @@ public class OrderTshirt extends Fragment implements Tab {
         }
     }
 
+
     /*
      * Returns the Email Body Message, update this to handle either collection or delivery
      */
@@ -122,16 +127,36 @@ public class OrderTshirt extends Fragment implements Tab {
     {
         //check that Name is not empty, and ask do they want to continue
         String customerName = mCustomerName.getText().toString();
-        if (mCustomerName == null || customerName.equals(""))
-        {
+        if (mCustomerName == null || customerName.equals("")) {
             Toast.makeText(getContext(), "Please enter your name", Toast.LENGTH_SHORT).show();
-
+            return;
             /* we can also use a dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Notification!").setMessage("Customer Name not set.").setPositiveButton("OK", null).show();*/
 
-        } else {
-            Log.d(TAG, "sendEmail: should be sending an email with "+createOrderSummary(v));
+        }
+        Intent selector = new Intent(Intent.ACTION_SENDTO);
+        selector.setData(Uri.parse("mailto:"));
+        Intent email = new Intent(Intent.ACTION_SEND);
+
+        String address = getString(R.string.to_email);
+        String subject = getString(R.string.email_subject);
+        String body = createOrderSummary(v);
+
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{address});
+        email.putExtra(Intent.EXTRA_SUBJECT, subject);
+        email.putExtra(Intent.EXTRA_TEXT, body);
+        email.putExtra(Intent.EXTRA_MIME_TYPES, "message/rfc822");
+        email.setSelector(selector);
+
+        Log.d(TAG, "sendEmail: should be sending an email with "+createOrderSummary(v));
+        try {
+            Log.i(null,"emailIntent: $emailIntent");
+            startActivity(Intent.createChooser(email, "Choose Email Client..."));
+        }
+        catch (Exception e) {
+            Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.i(null,"emailIntent: $emailIntent");
         }
     }
 
